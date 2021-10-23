@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="jquery-1.8.3.min.js"></script>
+  <link href="index.css" rel="stylesheet" />
+</head>
+
+<body>
+  <form action="/upload" id="formbtn" enctype="multipart/form-data" method="post" target="iframe">
+    <input type="file" id="filebtn" name="filebtn" multiple />
+  </form>
+  <iframe id="iframe" name="iframe"></iframe>
+  <script>
+    $('#filebtn').change(function() {
+      $('#formbtn').submit();
+    });
+
+    $('#iframe').load(function() {
+      var json = $('#iframe').contents().find("body").html();
+      console.log(json);
+      var oDiv = document.createElement('div');
+      var oImg = new Image();
+      oImg.src = json;
+      oImg.style.width = "200px";
+      oImg.style.height = "200px";
+      document.body.appendChild(oDiv);
+      oDiv.appendChild(oImg);
+
+
+    })
+  </script>
+</body>
+
+</html>
