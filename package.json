@@ -1,0 +1,24 @@
+{
+  "name": "file_upload_demo",
+  "version": "1.0.0",
+  "description": "nodejs 项目：实现上传文件",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2017398956/file_upload_demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2017398956/file_upload_demo/issues"
+  },
+  "homepage": "https://github.com/2017398956/file_upload_demo#readme",
+  "dependencies": {
+    "formidable": "^3.5.0"
+  }
+}

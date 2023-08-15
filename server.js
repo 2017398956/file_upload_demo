@@ -24,44 +24,39 @@ var server = http.createServer(function(req, res) {
   // 打印所有的网络请求地址
   console.log("请求 " + n + ' : ' + url);
   if (url == '/') {
-    // 默认 index.html
-    var fileContent = fs.readFileSync('./index.html');
+    // fixme: 使用文件夹下的 html 无法加载其中的 js
+    // var fileContent = fs.readFileSync('./html/upload_files/index.html');
+	var fileContent = fs.readFileSync('./index.html');
     res.write(fileContent);
     res.end();
-  } else if (url == '/upload') {
+  } 
+  else if (url == '/upload') {
     // 接收上传的文件
     var parser = new formidable.IncomingForm();
     parser.parse(req, function(err, fileds, files) {
-      //console.log(files)
       if (!err) {
-        // fs.access(uploadFileDir, constants.F_OK, (err) => {
-        //   console.log(`${uploadFileDir} ${err ? 'does not exist' : 'exists'}`);
-        // });
-
-
         fs.exists(uploadFileDir , function(exists){
           if(!exists){
             fs.mkdir(uploadFileDir , function(callBack){
               console.log("创建文件夹成功！");
             });
           }
-          for (var name in files) {
-            console.log(name);
-            var imgBox = files[name];
-            var fileContent = fs.readFileSync(imgBox.path);
-            fs.writeFileSync(uploadFileDir + '/' + imgBox.name, fileContent);
-            //json1.msg.push(imgBox.name);
-            //console.log(json1)
-            // res.write({'success':1,'msg':imgBox.name})
-          }
-          // var str1=JSON.stringify(json1);
-          res.write(uploadFileDir + '/' + imgBox.name);
+		  files.filebtn.forEach(file => {
+			let fileContent = fs.readFileSync(file.filepath);
+			fs.writeFileSync(uploadFileDir + '/' + file.originalFilename, fileContent);
+			res.write(uploadFileDir + '/' + file.originalFilename);
+		  });
           res.end();
         });
       }
-
     })
-  } else {
+  } 
+  else if (url == '/list'){
+	let fileListHtml = fs.readFileSync('./html/file_list/index.html');
+	res.write(fileListHtml);
+	res.end();
+  }
+  else {
     filename = url.replace(/^\//, '');
     if (url == '/favicon.ico') {
       return false;
@@ -74,21 +69,18 @@ var server = http.createServer(function(req, res) {
           //console.log(httpFile);
           if (httpFile) {
             res.write(httpFile);
-
           }
           res.end();
           return false;
-
         }
         fileContent = fs.readFileSync('./' + filename);
         res.writeHead(200, {
           'Content-Type': 'image/jpeg'
         });
         res.write(fileContent);
-
       }
       res.end();
     })
   }
 });
-server.listen(8080);
+server.listen(8088);
